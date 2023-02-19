@@ -1,11 +1,10 @@
 import styles from './Item.module.scss';
-import cardapio from 'data/cardapio.json';
+import { Prato } from 'types/Prato';
+import TagsPrato from 'components/TagsPrato';
 
-type Props = typeof cardapio[0] 
-
-export default function Item(props: Props) {
-  const { title, description, category, size, serving, price, photo } = props;
-  return(
+export default function Item(props: Prato) {
+  const { title, description, photo } = props;
+  return (
     <div className={styles.item}>
       <div className={styles.item__imagem}>
         <img src={photo} alt={title} />
@@ -15,20 +14,7 @@ export default function Item(props: Props) {
           <h2> {title} </h2>
           <p> {description} </p>
         </div>
-        <div className={styles.item__tags}>
-          <div className={`${styles.item__tipo} ${styles[`item__tipo__${category.label.toLowerCase()}`]}`}>
-            {category.label}
-          </div>
-          <div className={styles.item__porcao}>
-            {size}g
-          </div>
-          <div className={styles.item__qtdpessoas}>
-                        Serve {serving} pessoa{serving === 1 ? '' : 's'}
-          </div>
-          <div className={styles.item__valor}>
-                        R$ {String(price.toFixed(2)).replace('.', ',')}
-          </div>
-        </div>
+        <TagsPrato {...props}/>
       </div>
     </div>
   );
